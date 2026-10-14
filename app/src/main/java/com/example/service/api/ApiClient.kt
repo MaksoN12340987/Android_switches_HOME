@@ -8,6 +8,7 @@ private const val AUTH_TOKEN = "django-insecure-kw&o6na0bg6=!=deyi%q\$+#9my14*wr
 
 object ApiClient {
     private const val BASE_URL = "http://192.168.0.149:8000/"
+//    private const val BASE_URL = "http://192.168.1.5:8000/"
 
     private val client = OkHttpClient.Builder()
         .addInterceptor { chain ->

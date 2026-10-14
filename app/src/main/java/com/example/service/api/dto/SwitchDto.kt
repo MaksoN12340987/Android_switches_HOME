@@ -5,5 +5,6 @@ data class SwitchDto(
     val name: String,
     val location: String,
     val on_off: Boolean,
-    val image: String?
+    val image: String?,
+    val is_favorite: Boolean = false
 )

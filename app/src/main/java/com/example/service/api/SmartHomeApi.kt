@@ -1,5 +1,6 @@
 package com.example.service.api
 
+import com.example.service.api.dto.FavoritePatch
 import com.example.service.api.dto.SwitchDto
 import com.example.service.api.dto.SwitchPatch
 import retrofit2.http.*
@@ -13,5 +14,11 @@ interface SmartHomeApi {
     suspend fun setState(
         @Path("id") id: Int,
         @Body body: SwitchPatch
+    ): SwitchDto
+
+    @PATCH("api/Add_favorites/{id}/")
+    suspend fun setFavorite(
+        @Path("id") id: Int,
+        @Body body: FavoritePatch
     ): SwitchDto
 }

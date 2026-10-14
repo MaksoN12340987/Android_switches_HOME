@@ -6,6 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.service.api.ApiClient
+import com.example.service.api.dto.FavoritePatch
 import com.example.service.api.dto.SwitchDto
 import com.example.service.api.dto.SwitchPatch
 import kotlinx.coroutines.launch
@@ -43,6 +44,23 @@ class SwitchesViewModel : ViewModel() {
                 ApiClient.api.setState(device.id, SwitchPatch(on_off = turnOn))
                 switches = switches.map {
                     if (it.id == device.id) it.copy(on_off = turnOn) else it
+                }
+            } catch (e: Exception) {
+                error = e.message
+            }
+        }
+    }
+
+    fun toggleFavorite(device: SwitchDto) {
+        viewModelScope.launch {
+            try {
+                val newValue = !device.is_favorite
+                val updated = ApiClient.api.setFavorite(
+                    device.id,
+                    FavoritePatch(is_favorite = newValue)
+                )
+                switches = switches.map {
+                    if (it.id == updated.id) updated else it
                 }
             } catch (e: Exception) {
                 error = e.message
