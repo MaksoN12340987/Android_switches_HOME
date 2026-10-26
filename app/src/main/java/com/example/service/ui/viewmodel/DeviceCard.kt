@@ -64,8 +64,8 @@ fun DeviceCard(
                     contentAlignment = Alignment.Center
                 ) {
                     AsyncImage(
-                        model = "com.example.service.R.drawable.{device.image}",
-//                        model = "http://192.168.1.5:8000${device.image}",
+//                        model = "com.example.service.R.drawable.{device.image}",
+                        model = "http://192.168.1.5:8000${device.image}",
                         contentDescription = null,
                         modifier = Modifier.size(32.dp),
                         placeholder = painterResource(com.example.service.R.drawable.ic_device_placeholder),

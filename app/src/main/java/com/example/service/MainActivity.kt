@@ -43,12 +43,16 @@ import coil3.ImageLoader
 import coil3.PlatformContext
 import coil3.SingletonImageLoader
 import coil3.util.DebugLogger
+import com.example.service.api.ApiClient
+import com.example.service.ui.viewmodel.AuthViewModel
 import com.example.service.ui.viewmodel.FavoritesScreen
+import com.example.service.ui.viewmodel.ProfileScreen
 import com.example.service.ui.viewmodel.SwitchesViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        ApiClient.init(this)
         enableEdgeToEdge()
         setContent {
             SERVICETheme {
@@ -73,6 +77,7 @@ class Loggers : Application(), SingletonImageLoader.Factory {
 fun SERVICEApp() {
     var currentDestination by rememberSaveable { mutableStateOf(AppDestinations.HOME) }
     val switchesVm: SwitchesViewModel = viewModel()
+    val authVm: AuthViewModel = viewModel()
 
     Box(modifier = Modifier.fillMaxSize()) {
 
@@ -123,7 +128,8 @@ fun SERVICEApp() {
                     )
                 )
             },
-            bottomBar = { NavigationBar(
+            bottomBar = {
+                NavigationBar(
                     containerColor = Color.Transparent,
                     tonalElevation = 40.dp,
                     modifier = Modifier.height(110.dp)
@@ -151,92 +157,17 @@ fun SERVICEApp() {
                             )
                         )
                     }
-            } }
+                }
+            }
         ) { padding ->
             Box(Modifier.padding(padding).fillMaxSize()) {
                 when (currentDestination) {
                     AppDestinations.HOME -> SwitchesScreen(vm = switchesVm)
                     AppDestinations.FAVORITES -> FavoritesScreen(vm = switchesVm)
-                    AppDestinations.PROFILE -> Placeholder("Профиль")
+                    AppDestinations.PROFILE -> ProfileScreen(authVm = authVm)
                 }
             }
         }
-
-//        Scaffold(
-//            modifier = Modifier.fillMaxSize(),
-//            containerColor = Color.Transparent,
-//            topBar = {
-//                TopAppBar(
-//                    actions = {
-//                        IconButton(onClick = { /* поиск */ }) {
-//                            Icon(
-//                                Icons.Default.Search,
-//                                contentDescription = "Поиск",
-//                                tint = Color(0xFF5288C1)
-//                            )
-//                        }
-//                    },
-//                    title = {
-//                        Text(
-//                            when (currentDestination) {
-//                                AppDestinations.HOME -> "Наш дом"
-//                                AppDestinations.FAVORITES -> "Информация"
-//                                AppDestinations.PROFILE -> "Профиль"
-//                            },
-//                            fontSize = 40.sp,
-//                            fontWeight = FontWeight.Black
-//                        )
-//                    },
-//                    colors = TopAppBarDefaults.topAppBarColors(
-//                        containerColor = Color.Transparent,
-//                        titleContentColor = Color.White
-//                    )
-//                )
-//            },
-//            bottomBar = {
-//                NavigationBar(
-//                    containerColor = Color(0xFF9aa0a6).copy(alpha = 0.2f),
-//                    tonalElevation = 40.dp,
-//                    modifier = Modifier.height(110.dp)
-//                ) {
-//                    AppDestinations.entries.forEach { dest ->
-//                        NavigationBarItem(
-//                            selected = dest == currentDestination,
-//                            onClick = { currentDestination = dest },
-//                            icon = {
-//                                Icon(
-//                                    painter = painterResource(dest.icon),
-//                                    contentDescription = dest.label,
-//                                    modifier = Modifier.size(22.dp)
-//                                )
-//                            },
-//                            label = {
-//                                Text(dest.label, fontSize = 14.sp)
-//                            },
-//                            colors = NavigationBarItemDefaults.colors(
-//                                selectedIconColor = Color(0xFF5288C1),
-//                                selectedTextColor = Color(0xFF5288C1),
-//                                indicatorColor = Color.Transparent,   // ← убираем серый «пилюльный» фон
-//                                unselectedIconColor = Color(0xFF6D7F8F),
-//                                unselectedTextColor = Color(0xFF6D7F8F)
-//                            )
-//                        )
-//                    }
-//                }
-//            }
-//        ) { innerPadding ->
-//            Box(
-//                modifier = Modifier
-//                    .fillMaxSize()
-//                    .padding(innerPadding)
-//            ) {
-//                when (currentDestination) {
-//                    AppDestinations.HOME -> SwitchesScreen()
-//                    AppDestinations.FAVORITES -> Placeholder("Избранное")
-//                    AppDestinations.PROFILE -> Placeholder("Профиль")
-//                }
-//            }
-//        }
     }
 }
 

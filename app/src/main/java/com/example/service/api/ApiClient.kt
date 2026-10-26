@@ -1,5 +1,7 @@
 package com.example.service.api
 
+import android.content.Context
+import com.example.service.auth.TokenManager
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -7,8 +9,13 @@ import retrofit2.converter.gson.GsonConverterFactory
 private const val AUTH_TOKEN = "django-insecure-kw&o6na0bg6=!=deyi%q\$+#9my14*wr45h#v8f_cifxje23*tf"
 
 object ApiClient {
-    private const val BASE_URL = "http://192.168.0.149:8000/"
-//    private const val BASE_URL = "http://192.168.1.5:8000/"
+//    private const val BASE_URL = "http://192.168.0.149:8000/"
+    private const val BASE_URL = "http://192.168.1.5:8000/"
+    private lateinit var tokenManager: TokenManager
+
+    fun init(context: Context) {
+        tokenManager = TokenManager(context)
+    }
 
     private val client = OkHttpClient.Builder()
         .addInterceptor { chain ->
