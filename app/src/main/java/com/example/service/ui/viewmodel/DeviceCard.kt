@@ -26,8 +26,9 @@ import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-
+import com.example.service.R
 
 @Composable
 fun DeviceCard(
@@ -64,12 +65,15 @@ fun DeviceCard(
                     contentAlignment = Alignment.Center
                 ) {
                     AsyncImage(
-//                        model = "com.example.service.R.drawable.{device.image}",
-                        model = "http://192.168.1.5:8000${device.image}",
-                        contentDescription = null,
-                        modifier = Modifier.size(32.dp),
-                        placeholder = painterResource(com.example.service.R.drawable.ic_device_placeholder),
-                        error = painterResource(com.example.service.R.drawable.ic_device_placeholder)
+                        model = device.image,  // <-- Передаем строку прямо как есть!
+                        contentDescription = "Изображение",
+                        modifier = Modifier
+                            .size(64.dp)
+                            .clip(CircleShape),
+                        contentScale = ContentScale.Crop,
+                        // Показываем иконку-заглушку, если фото нет или оно грузится
+                        error = painterResource(R.drawable.ic_device_placeholder), // или Icons.Default.Person
+                        placeholder = painterResource(R.drawable.ic_device_placeholder)
                     )
                 }
 
